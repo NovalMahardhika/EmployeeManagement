@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,10 +27,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/users',[UserController::class,'showAllUser']);
 
 //Employee
-Route::get('/allEmployees',[EmployeeController::class,'getAllEmployees']);
-Route::get('/getOneEmployee/{$id}',[EmployeeController::class,'getOneEmployee']);
-Route::post('/createEmployee',[EmployeeController::class,'createEmployee']);
-Route::put('/updateEmployee/{id}',[EmployeeController::class,'updateEmployee']);
-Route::delete('/deleteEmployee/{id}',[EmployeeController::class,'deleteEmployee']);
+Route::resource('/employee', EmployeeController::class);
 
-//
+//Department
+Route::resource('/department', DepartmentController::class);
+
+// Country
+Route::resource('/country', CountryController::class);
+
+// City
+Route::resource('/city', CityController::class);
+
+
+
+

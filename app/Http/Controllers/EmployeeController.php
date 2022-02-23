@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
 {
-    // Show All Employee-> api/allEmployee
-    public function getAllEmployees()
+    // Show All Employee
+    public function index()
     {
         $employee = Employee::get();
         $response = [
@@ -23,8 +23,8 @@ class EmployeeController extends Controller
     }
 
 
-    // Create Employee->api/createEmployee
-    public function createEmployee(Request $request)
+    // Create Employee
+    public function store(Request $request)
     {
         $validator = Validator::make($request ->all(),
         [
@@ -35,7 +35,6 @@ class EmployeeController extends Controller
             "address" => ['required','max : 255'],
             // departmen_id
             // city_id
-            // state_id
             // country_id
             "zip_code" => ['required','integer','max:10']
         ]);
@@ -62,7 +61,7 @@ class EmployeeController extends Controller
     }
 
     // Update Employee -> api/updateEmployee/{$id}
-    public function updateEmployee(Request $request,$id)
+    public function update(Request $request,$id)
     {
         $employee = Employee::findOrFail($id);
 
@@ -103,7 +102,7 @@ class EmployeeController extends Controller
     }
 
     // Get One Employee -> api/getOne/{$id}
-    public function getOneEmployee($id)
+    public function show($id)
     {
         $employee = Employee::findOrFail($id);
         $response = [
@@ -115,7 +114,7 @@ class EmployeeController extends Controller
     }
 
     // Delete Employee -> api/deleteEmployee/{id}
-    public function deleteEmployee($id)
+    public function destroy($id)
     {
         $employee = Employee::findOrFail($id);
 

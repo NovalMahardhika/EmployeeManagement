@@ -22,7 +22,6 @@ class CreateEmployeesTable extends Migration
             $table->string('address');
             $table->integer('department_id')->constrained();
             $table->integer('city_id')->constrained();
-            $table->integer('state_id')->constrained();
             $table->integer('country_id')->constrained();
             $table->char('zip_code');
             $table->date('birthdate')->nullable();
