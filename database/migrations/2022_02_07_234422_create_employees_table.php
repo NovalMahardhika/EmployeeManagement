@@ -19,12 +19,12 @@ class CreateEmployeesTable extends Migration
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
+            $table->date('birthdate');
             $table->string('address');
-            $table->integer('department_id')->constrained();
-            $table->integer('city_id')->constrained();
-            $table->integer('country_id')->constrained();
+            $table->unsignedBigInteger('department_id')->nullable()->constrained('departments')->nullOnDelete();
+            $table->unsignedBigInteger('city_id')->nullable()->constrained('cities')->nullOnDelete();
+            $table->unsignedBigInteger('country_id')->nullable()->constrained('countries')->nullOnDelete();
             $table->char('zip_code');
-            $table->date('birthdate')->nullable();
             $table->date('date_hired')->nullable();
             $table->timestamps();
         });

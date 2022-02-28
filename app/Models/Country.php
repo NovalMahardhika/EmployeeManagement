@@ -10,7 +10,12 @@ class Country extends Model
     use HasFactory;
 
     protected $fillable = [
-        "country_code",
+
         'name',
     ];
+
+    public function Employee()
+    {
+        return $this->hasMany(Employee::class, 'country_id', 'id');
+    }
 }

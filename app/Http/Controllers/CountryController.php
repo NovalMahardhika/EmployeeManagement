@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CountryResource;
 use App\Models\Country;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -16,18 +17,22 @@ class CountryController extends Controller
         $country = Country::get();
         $response = [
             'message'=>'Data Founded',
-            'data' => $country
+            'data' => CountryResource::collection($country)
         ];
 
         return response()->json($response,Response::HTTP_ACCEPTED);
     }
+
+
+
+
 
     // Create Country
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),
         [
-            "country_code"=>["required"],
+
             "name"=>["required"]
         ]);
 
@@ -52,6 +57,9 @@ class CountryController extends Controller
     }
 
 
+
+
+
     // Update Country
     public function update(Request $request,$id)
     {
@@ -59,7 +67,6 @@ class CountryController extends Controller
 
         $validator = Validator::make($request->all(),
         [
-            "country_code"=>["required"],
             "name"=>["required"]
         ]);
 
@@ -83,6 +90,10 @@ class CountryController extends Controller
     }
 
 
+
+
+
+
     // Get One Country
     public function show($id)
     {
@@ -94,6 +105,10 @@ class CountryController extends Controller
 
         return response()->json($response,Response::HTTP_ACCEPTED);
     }
+
+
+
+
 
 
     // Delete Country

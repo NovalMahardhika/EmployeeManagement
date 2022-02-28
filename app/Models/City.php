@@ -13,4 +13,12 @@ class City extends Model
     protected $fillable = [
         'name',
     ];
+
+  
+    public function Employee()
+    {
+        return $this->hasMany(Employee::class, 'city_id', 'id');
+    }
+  
+ 
 }

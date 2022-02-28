@@ -13,5 +13,15 @@ class Department extends Model
     protected $fillable = [
         'name',
     ];
+
+    /**
+     * Get the Employee that owns the Department
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function Employee()
+    {
+        return $this->hasMany(Employee::class, 'department_id', 'id');
+    }
 }
 

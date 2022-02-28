@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CityResource;
 use App\Models\City;
 use App\Models\Country;
 use Illuminate\Database\QueryException;
@@ -17,7 +18,7 @@ class CityController extends Controller
         $city=City::get();
         $response =[
             'message'=>'Data Founded',
-            'data'=>$city
+            'data'=> CityResource::collection($city)
         ];  
 
         return response()->json($response,Response::HTTP_ACCEPTED);

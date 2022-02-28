@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EmployeeResource;
+use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,10 +19,11 @@ class EmployeeController extends Controller
         $employee = Employee::get();
         $response = [
             'message' => 'Data Founded',
-            'data' => $employee, 
+            'data' => EmployeeResource::collection($employee)
         ];
+       
 
-        return response()->json($response,Response::HTTP_ACCEPTED);
+        return response()->json($response, Response::HTTP_ACCEPTED);
     }
 
 
@@ -31,12 +35,14 @@ class EmployeeController extends Controller
             "username" => ['required','max:20'],
             "last_name" => ['required','max:20'],
             "first_name" => ['required','max:20'],
-            "middle_name" => ['required','max:20'],
+            "middle_name" => ['nullable','max:20'],
+            "birthdate" => ["required"],
             "address" => ['required','max : 255'],
-            // departmen_id
-            // city_id
-            // country_id
-            "zip_code" => ['required','integer','max:10']
+            "department_id"=>['required'],
+            "city_id"=>['required', ],
+            "country_id"=>['required', ],
+            "zip_code" => ['required','integer'],
+            "date_hired" => ["nullable"],
         ]);
 
         if ($validator->fails()) {
@@ -71,13 +77,14 @@ class EmployeeController extends Controller
             "username" => ['required','max:20'],
             "last_name" => ['required','max:20'],
             "first_name" => ['required','max:20'],
-            "middle_name" => ['required','max:20'],
+            "middle_name" => ['nullable','max:20'],
+            "birthdate" => ["required"],
             "address" => ['required','max : 255'],
-            // departmen_id
-            // city_id
-            // state_id
-            // country_id
-            "zip_code" => ['required','integer','max:10']
+            "department_id"=>['required',  ],
+            "city_id"=>['required', ],
+            "country_id"=>['required', ],
+            "zip_code" => ['required','integer'],
+            "date_hired" => ["required"],
         ]);
 
         if ($validator->fails()) {
@@ -121,7 +128,7 @@ class EmployeeController extends Controller
         
 
         try {
-        $employee->destroy();
+        $employee->destroy($id);
         $response = 
         [
             'message' => 'Data Deleted'

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -17,10 +18,10 @@ class DepartmentController extends Controller
         $employee = Department::get();
         $response = [
             'message' => 'Data Founded',
-            'data' => $employee
+            'data' => DepartmentResource::collection($employee)
         ];
 
-        return response()->json($response, Response::HTTP_FOUND);
+        return response()->json($response,Response::HTTP_FOUND);
     }
 
     // Create Department
