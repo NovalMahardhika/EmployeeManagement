@@ -74,17 +74,17 @@ class EmployeeController extends Controller
 
         $validator = Validator::make($request ->all(),
         [
-            "username" => ['required','max:20'],
-            "last_name" => ['required','max:20'],
-            "first_name" => ['required','max:20'],
+            "username" => ['nullable','max:20'],
+            "last_name" => ['nullable','max:20'],
+            "first_name" => ['nullable','max:20'],
             "middle_name" => ['nullable','max:20'],
-            "birthdate" => ["required"],
-            "address" => ['required','max : 255'],
-            "department_id"=>['required',  ],
-            "city_id"=>['required', ],
-            "country_id"=>['required', ],
-            "zip_code" => ['required','integer'],
-            "date_hired" => ["required"],
+            "birthdate" => ["nullable"],
+            "address" => ['nullable','max : 255'],
+            "department_id"=>['nullable',  ],
+            "city_id"=>['nullable', ],
+            "country_id"=>['nullable', ],
+            "zip_code" => ['nullable','integer'],
+            "date_hired" => ["nullable"],
         ]);
 
         if ($validator->fails()) {
