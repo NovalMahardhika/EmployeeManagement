@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\Country;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,6 +28,15 @@ class CityController extends Controller
     // Create City
     public function store(Request $request)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
+
         $validator= Validator::make($request->all(),
         [
             'name'=>['required']
@@ -67,6 +77,15 @@ class CityController extends Controller
         // Update City
     public function update(Request $request,$id)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
+
         $city = City::findOrFail($id);
 
         $validator = Validator::make($request->all(),
@@ -96,6 +115,14 @@ class CityController extends Controller
     // Delete City
     public function destroy($id)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
         $city=City::findOrFail($id);
 
         try {

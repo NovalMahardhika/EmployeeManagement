@@ -7,6 +7,7 @@ use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\API\UserController as ApiUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,24 +20,27 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('login',[ApiUserController::class,'login']);
+Route::post('register',[ApiUserController::class,'register']);
 
-//User
-Route::get('/users',[UserController::class,'showAllUser']);
+Route::group(['middleware' => 'auth:api'], function(){
+    //User
+    Route::get('/users',[UserController::class,'showAllUser']);
 
 //Employee
-Route::resource('/employee', EmployeeController::class);
+    Route::resource('/employee', EmployeeController::class);
 
-//Department
-Route::resource('/department', DepartmentController::class);
+    //Department
+    Route::resource('/department', DepartmentController::class);
 
-// Country
-Route::resource('/country', CountryController::class);
+    // Country
+    Route::resource('/country', CountryController::class);
 
-// City
-Route::resource('/city', CityController::class);
+    // City
+    Route::resource('/city', CityController::class);
+
+});
+
 
 
 

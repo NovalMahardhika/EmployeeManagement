@@ -30,6 +30,13 @@ class EmployeeController extends Controller
     // Create Employee
     public function store(Request $request)
     {
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
         $validator = Validator::make($request ->all(),
         [
             "username" => ['required','max:20'],
@@ -69,6 +76,13 @@ class EmployeeController extends Controller
     // Update Employee -> api/updateEmployee/{$id}
     public function update(Request $request,$id)
     {
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
         $employee = Employee::findOrFail($id);
 
 
@@ -123,6 +137,13 @@ class EmployeeController extends Controller
     // Delete Employee -> api/deleteEmployee/{id}
     public function destroy($id)
     {
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
         $employee = Employee::findOrFail($id);
 
         

@@ -7,6 +7,7 @@ use App\Models\Department;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,6 +29,14 @@ class DepartmentController extends Controller
 
     public function store(Request $request)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
         $validator = Validator::make($request->all(),
     [
         'name' => ['required'],
@@ -57,6 +66,15 @@ class DepartmentController extends Controller
 
     public function update(Request $request, $id)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
+
         $department = Department::findOrFail($id);
         {
             $validator = Validator::make($request->all(),
@@ -101,10 +119,19 @@ class DepartmentController extends Controller
     // Delete Department
     public function destroy($id)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
+        
         $department =Department::findOrFail($id);
 
         try {
-            $department->destroy();
+            $department->destroy($id);
             $response = [
                 'message'=>'Data Deleted'
             ];

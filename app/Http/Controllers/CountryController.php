@@ -6,6 +6,7 @@ use App\Http\Resources\CountryResource;
 use App\Models\Country;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,6 +15,7 @@ class CountryController extends Controller
     // Show All Country
     public function index()
     {
+        
         $country = Country::get();
         $response = [
             'message'=>'Data Founded',
@@ -30,6 +32,15 @@ class CountryController extends Controller
     // Create Country
     public function store(Request $request)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
+
         $validator = Validator::make($request->all(),
         [
 
@@ -63,6 +74,15 @@ class CountryController extends Controller
     // Update Country
     public function update(Request $request,$id)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
+
         $country = Country::findOrFail($id);
 
         $validator = Validator::make($request->all(),
@@ -114,6 +134,15 @@ class CountryController extends Controller
     // Delete Country
     public function destroy($id)
     {
+        
+        $userLogin = Auth::user()->id_role;
+        if ($userLogin==2) {
+            return response()->json([
+                "Message" => "You Cannot access This EndPoint"
+            ],Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            
+        }
+        
         $country = Country::findOrFail($id);
         
         try {
